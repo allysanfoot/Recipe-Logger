@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
+from .models import Recipe
 
 # serializer will take python object and convert it to json to be used in communication with the frontend
 class UserSerializer(serializers.ModelSerializer):
@@ -16,3 +17,11 @@ class UserSerializer(serializers.ModelSerializer):
         """
         user = User.objects.create_user(**validated_data)
         return user
+    
+class RecipeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Recipe
+        fields = '__all__'
+        extra_kwargs = {
+            'author': {'read_only': True}
+        }
