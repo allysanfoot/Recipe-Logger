@@ -31,5 +31,8 @@ urlpatterns = [
     # endpoint to get a new refresh token
     path('api/token/refresh', TokenRefreshView.as_view(), name='refresh_token'),
 
-    path('api-auth/', include('rest_framework.urls'))
+    path('api-auth/', include('rest_framework.urls')),
+
+    # forward all other requests to api/urls.py 
+    path('api/', include('api.urls'))
 ]
