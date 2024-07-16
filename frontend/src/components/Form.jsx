@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import api from '../api'
-import { useNavigate } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../constants'
+import '../styles/form.css'
+import Login from '../pages/Login'
 
 function Form({ route, method }) {
     const [username, setUsername] = useState('')
@@ -34,28 +36,32 @@ function Form({ route, method }) {
     }
 
     return (
-        <>
-            <form onSubmit={handleSubmit} className=''>
+        <div id='login-form' className='login'>
+            <form onSubmit={handleSubmit} className='form-container'>
                 <h1>{formTitle}</h1>
                 <input
-                    className=''
+                    className='form-input'
                     type='text'
                     placeholder='Username'
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                 />
                 <input
-                    className=''
+                    className='form-input'
                     type='password'
                     placeholder='Password'
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <button className='' type='submit'>
+                { method === 'register' ?
+                <p>Already have an account? <Link to='/login'>Log in</Link></p> :
+                <p>Don't have an account? <Link to='/register'>Register</Link></p>
+                }
+                <button className='form-button' type='submit'>
                     {formTitle}
                 </button>
             </form>
-        </>
+        </div>
     )
 }
 
