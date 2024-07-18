@@ -2,6 +2,8 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import api from '../api'
 import Recipe from '../components/Recipe'
+import '../styles/homepage.css'
+import Navigation from '../components/Navigation'
 
 function Homepage() {
     const [recipes, setRecipes] = useState([])
@@ -20,18 +22,7 @@ function Homepage() {
         .then((data) => { setRecipes(data); console.log(data) })
         .catch((error) => alert(error))
     }
-    
-    const deleteRecipe = (id) => {
-        api
-        .delete(`/api/recipes/delete/${id}/`)
-        .then((response) => {
-            if (response.status === 204) { alert('Recipe deleted') }
-            else alert('Failed to delete recipe')
-            getRecipes()
-        })
-        .catch((error) => alert(error))
-    }
-    
+
     const createRecipe = (e) => {
         e.preventDefault()
         api
@@ -43,14 +34,25 @@ function Homepage() {
             })
             .catch((error) => alert(error))
     }
-    
+
+    const deleteRecipe = (id) => {
+        api
+            .delete(`/api/recipes/delete/${id}/`)
+            .then((response) => {
+                if (response.status === 204) { alert('Recipe deleted') }
+                else alert('Failed to delete recipe')
+                getRecipes()
+            })
+            .catch((error) => alert(error))
+    }
+
     return (
         <>
-            <div>
-                <h2>Recipes</h2>
+        <Navigation />
+            <div className='recipe-section-title'>
+                <h2>Create a Recipe!</h2>
             </div>
             <div>
-                <h2>Create a Recipe!</h2>
                 <form onSubmit={createRecipe}>
                     <label htmlFor='title'>Title:</label>
                     <br />
@@ -76,8 +78,9 @@ function Homepage() {
                     <br />
                     <input type='submit' value='Create Recipe' />
                 </form>
-                <div>
-                    <p>Recipes on File:</p>
+                <br />
+                <div className='recipes-on-file'>
+                    <h2>Recipes on File:</h2>
                     {recipes.map((recipe) => (
                         <Recipe key={recipe.id} recipe={recipe} onDelete={deleteRecipe} />
                     ))}

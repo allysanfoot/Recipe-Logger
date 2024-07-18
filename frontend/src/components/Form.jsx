@@ -3,7 +3,7 @@ import api from '../api'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../constants'
 import '../styles/form.css'
-import Login from '../pages/Login'
+import Loading from './Loading'
 
 function Form({ route, method }) {
     const [username, setUsername] = useState('')
@@ -29,7 +29,7 @@ function Form({ route, method }) {
                 navigate('/login')
             }
         } catch (error) {
-            alert(error)
+            alert('There was an error! Please try again.')
         } finally {
             setLoading(false)
         }
@@ -57,6 +57,7 @@ function Form({ route, method }) {
                 <p>Already have an account? <Link to='/login'>Log in</Link></p> :
                 <p>Don't have an account? <Link to='/register'>Register</Link></p>
                 }
+                {loading && <Loading />}
                 <button className='form-button' type='submit'>
                     {formTitle}
                 </button>
